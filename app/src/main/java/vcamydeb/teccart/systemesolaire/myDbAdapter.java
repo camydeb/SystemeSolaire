@@ -21,6 +21,13 @@ public class myDbAdapter {
 
     public void Open(){
         this.db = this.dbHelper.getWritableDatabase();
+
+    }
+
+    public void insertBD() {
+        this.db = this.dbHelper.getWritableDatabase();
+
+        this.db.execSQL("DELETE FROM 'astre';");
         this.db.execSQL("INSERT INTO astre VALUES ('pluton','25','jaune','false','pluton.png');");
         this.db.execSQL("INSERT INTO astre VALUES ('terre','30','bleu','true','terre.png');");
         this.db.execSQL("INSERT INTO astre VALUES ('saturne','40','jaune','false','saturne.png');");
@@ -35,6 +42,7 @@ public class myDbAdapter {
     {
 
         ArrayList<AstreCeleste> listePlanetes = new ArrayList<AstreCeleste>();
+
 
         Cursor cursor = this.db.rawQuery("select * from astre ",null);
 
@@ -58,4 +66,6 @@ public class myDbAdapter {
         }
         return listePlanetes;
     }
+
+
 }

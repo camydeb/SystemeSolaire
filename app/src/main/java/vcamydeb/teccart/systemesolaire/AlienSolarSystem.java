@@ -1,4 +1,5 @@
 package vcamydeb.teccart.systemesolaire;
+import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -27,7 +28,13 @@ public class AlienSolarSystem extends View {
     private String image;
     private Bitmap imageSelect;
     private int radius;
-
+    private Bitmap vaisseau;
+    private String nom;
+    private int taille;
+    private String couleur;
+    private boolean type;
+    private String nomImage;
+    private Bitmap space;
     private ArrayList<AstreCeleste> liste;
 
 
@@ -47,10 +54,19 @@ public class AlienSolarSystem extends View {
         ballX = alea.nextInt(1000);
         bally = alea.nextInt(1000);
 
-        for (int i=0;i<planetes.length;i++)
+        for (int i=0;i<liste.size();i++)
         {
+            nom = liste.get(i).getNomAstre();
+            taille = liste.get(i).getTailleAstre();
+            couleur = liste.get(i).getCouleurAstre();
+            type = liste.get(i).isStatusAstre();
+            nomImage = liste.get(i).getNomImageAstre();
+
+            AstreCeleste temp1 = new AstreCeleste(nom, taille, couleur, type, nomImage);
+
             planetes temp = new planetes(mcontext);
             planetes[i] = temp;
+
 
         }
 
@@ -63,18 +79,37 @@ public class AlienSolarSystem extends View {
 
     }
     
+
     @Override
     protected void onDraw(Canvas canvas)
     {
         // super.onDraw(canvas);
 
-        Bitmap vaisseau = BitmapFactory.decodeResource(getResources(),R.drawable.vaisseau);
+        //creer le background
+        space = BitmapFactory.decodeResource(getResources(),R.drawable.space);
+        Bitmap resizedSpace = Bitmap.createScaledBitmap(space,2000,1125,true);
+        canvas.drawBitmap(resizedSpace, 0,0,null);
 
+        //creer le vaisseau
+        vaisseau = BitmapFactory.decodeResource(getResources(),R.drawable.vaisseau);
+        Bitmap resizedVaisseau = Bitmap.createScaledBitmap(vaisseau,300 ,400,true);
+        canvas.drawBitmap(resizedVaisseau, ballX, bally, null);
+
+
+        //creer les planetes
         for (int i=0;i<planetes.length;i++)
         {
 
-            planetes[i].onDraw(canvas);
+
+
+
+
+             planetes[i].onDraw(canvas);
+
+
         }
+
+
 
         if(cnt>=planetes.length && !fin)
         {
@@ -100,7 +135,7 @@ public class AlienSolarSystem extends View {
                 ballX = touchX;
                 bally = touchY;
 
-                for(int i =0;i<planetes.length;i++)
+                for(int i = 0;i<planetes.length;i++)
                 {
                     limitL = ballX > (planetes[i].getPosX()-30);
                     limitR =  ballX < (planetes[i].getPosX()+30);

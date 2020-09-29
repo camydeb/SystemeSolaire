@@ -67,6 +67,7 @@ public class StartScreen extends View {
 
         switch (action)
         {
+
             case MotionEvent.ACTION_DOWN:
                 if ((touchX > (screenW-btnPlayUp.getWidth())/2 &&
                         touchX< ((screenW-btnPlayUp.getWidth())/2) +
@@ -81,9 +82,11 @@ public class StartScreen extends View {
             case MotionEvent.ACTION_UP:
                 if(playBtnState)
                 {
-
+                    myDbAdapter adapter = new myDbAdapter(getContext());
+                    adapter.insertBD();
                     Intent gameIntent = new Intent(MyContext,GameOn.class);
                     MyContext.startActivity(gameIntent);
+
                 }
                 playBtnState = false;
 

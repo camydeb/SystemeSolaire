@@ -79,17 +79,19 @@ public class planetes extends View {
 
     protected void onDraw(Canvas canvas) {
 
-        for(int i = 0; i < liste.size(); i++)
-        {
-            image = liste.get(i).getNomImageAstre();
-            radius = liste.get(i).getTailleAstre();
+        image = liste.get(i).getNomImageAstre();
+        radius = liste.get(i).getTailleAstre();
 
-            int idImage= getResources().getIdentifier(image,"drawable", myContexte.getPackageName());
+        int idImage= getResources().getIdentifier(image,"drawable", getContext().getPackageName());
 
-            imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
+        imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
 
 
-            Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,radius ,radius,true);
+        Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,radius ,radius,true);
+
+
+
+
 
 
             canvas.drawBitmap(resizedImage, posX , posY, null);
