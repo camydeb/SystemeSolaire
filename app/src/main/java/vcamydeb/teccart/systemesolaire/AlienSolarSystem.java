@@ -54,15 +54,9 @@ public class AlienSolarSystem extends View {
         ballX = alea.nextInt(1000);
         bally = alea.nextInt(1000);
 
-        for (int i=0;i<liste.size();i++)
+        for (int i=0;i<7;i++)
         {
-            nom = liste.get(i).getNomAstre();
-            taille = liste.get(i).getTailleAstre();
-            couleur = liste.get(i).getCouleurAstre();
-            type = liste.get(i).isStatusAstre();
-            nomImage = liste.get(i).getNomImageAstre();
 
-            AstreCeleste temp1 = new AstreCeleste(nom, taille, couleur, type, nomImage);
 
             planetes temp = new planetes(mcontext);
             planetes[i] = temp;
@@ -70,7 +64,7 @@ public class AlienSolarSystem extends View {
 
         }
 
-        if(cnt>=planetes.length && !fin)
+        if(cnt>=7 && !fin)
         {
             Toast.makeText(mcontext,"La partie est terminee",Toast.LENGTH_LONG).show();
             fin = true;
@@ -78,7 +72,7 @@ public class AlienSolarSystem extends View {
 
 
     }
-    
+
 
     @Override
     protected void onDraw(Canvas canvas)
@@ -97,21 +91,37 @@ public class AlienSolarSystem extends View {
 
 
         //creer les planetes
-        for (int i=0;i<planetes.length;i++)
+        for (int i=0;i<=7;i++)
         {
 
 
+            nom = liste.get(i).getNomAstre();
+            taille = liste.get(i).getTailleAstre();
+            couleur = liste.get(i).getCouleurAstre();
+            type = liste.get(i).isStatusAstre();
+            nomImage = liste.get(i).getNomImageAstre();
+
+            AstreCeleste temp1 = new AstreCeleste(nom, taille, couleur, type, nomImage);
 
 
 
-             planetes[i].onDraw(canvas);
+            //        image = liste.get(i).getNomImageAstre();
+//        radius = liste.get(i).getTailleAstre();
+//
+//        int idImage= getResources().getIdentifier(image,"drawable", getContext().getPackageName());
+//
+//        imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
+//
+//
+//        Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,radius ,radius,true);
+//            canvas.drawBitmap(resizedImage, posX , posY, null);
 
-
+            planetes[i].onDraw(canvas, nom, nomImage, taille, type, couleur);
         }
 
 
 
-        if(cnt>=planetes.length && !fin)
+        if(cnt>=7 && !fin)
         {
             Toast.makeText(mcontext,"La partie est terminee",Toast.LENGTH_LONG).show();
             fin = true;

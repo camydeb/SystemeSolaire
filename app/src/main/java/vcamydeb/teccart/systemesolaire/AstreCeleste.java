@@ -1,5 +1,7 @@
 package vcamydeb.teccart.systemesolaire;
 
+import android.view.View;
+
 public class AstreCeleste extends Object {
 
     private String NomAstre;

@@ -28,14 +28,14 @@ public class myDbAdapter {
         this.db = this.dbHelper.getWritableDatabase();
 
         this.db.execSQL("DELETE FROM 'astre';");
-        this.db.execSQL("INSERT INTO astre VALUES ('pluton','25','jaune','false','pluton.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('terre','30','bleu','true','terre.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('saturne','40','jaune','false','saturne.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('mars','20','rouge','false','mars.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('mercure','15','rouge','false','mercure.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('lune','10','bleu','false','lune.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('soleil','100','jaune','false','soleil.png');");
-        this.db.execSQL("INSERT INTO astre VALUES ('deathstar','20','bleu','false','deathstar.png');");
+        this.db.execSQL("INSERT INTO astre VALUES ('pluton','25','jaune','false','pluton');");
+        this.db.execSQL("INSERT INTO astre VALUES ('terre','30','bleu','true','terre');");
+        this.db.execSQL("INSERT INTO astre VALUES ('saturne','24','jaune','false','saturne');");
+        this.db.execSQL("INSERT INTO astre VALUES ('mars','20','rouge','false','mars');");
+        this.db.execSQL("INSERT INTO astre VALUES ('mercure','15','rouge','false','mercure');");
+        this.db.execSQL("INSERT INTO astre VALUES ('lune','10','bleu','false','lune');");
+        this.db.execSQL("INSERT INTO astre VALUES ('soleil','40','jaune','false','soleil');");
+        this.db.execSQL("INSERT INTO astre VALUES ('deathstar','20','bleu','false','deathstar');");
     }
 
     public ArrayList<AstreCeleste> selectAstres()
