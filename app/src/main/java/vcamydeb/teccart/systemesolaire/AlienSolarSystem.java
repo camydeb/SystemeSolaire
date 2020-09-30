@@ -35,12 +35,21 @@ public class AlienSolarSystem extends View {
     private boolean type;
     private String nomImage;
     private Bitmap space;
+    private int screenW;
+    private int screenH;
     private ArrayList<AstreCeleste> liste;
 
+
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        screenW = w;
+        screenH = h;
+    }
 
     public AlienSolarSystem(Context context) {
         super(context);
         mcontext = context;
+
 
 
         myDbAdapter myDBAdapter = new myDbAdapter(mcontext);
@@ -51,10 +60,12 @@ public class AlienSolarSystem extends View {
         cnt =0;
         alea = new Random();
 
-        ballX = alea.nextInt(1000);
-        bally = alea.nextInt(1000);
+        ballX = alea.nextInt(1500);
+        bally = alea.nextInt(800);
 
-        for (int i=0;i<7;i++)
+
+
+        for (int i=0;i<=7;i++)
         {
 
 
@@ -72,6 +83,7 @@ public class AlienSolarSystem extends View {
 
 
     }
+
 
 
     @Override
@@ -147,10 +159,10 @@ public class AlienSolarSystem extends View {
 
                 for(int i = 0;i<planetes.length;i++)
                 {
-                    limitL = ballX > (planetes[i].getPosX()-30);
-                    limitR =  ballX < (planetes[i].getPosX()+30);
-                    LimitU =  bally > (planetes[i].getPosY()-30);
-                    LimitD =  bally < (planetes[i].getPosY()+30);
+                    limitL = ballX > (planetes[i].getPosX()-taille);
+                    limitR =  ballX < (planetes[i].getPosX()+taille);
+                    LimitU =  bally > (planetes[i].getPosY()-taille);
+                    LimitD =  bally < (planetes[i].getPosY()+taille);
 
                     if(limitL && limitR && LimitD && LimitU )
                     {

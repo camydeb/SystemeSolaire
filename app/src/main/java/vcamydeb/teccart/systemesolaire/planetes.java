@@ -24,13 +24,20 @@ public class planetes extends View {
     private String image;
     private Bitmap imageSelect;
     private int radius;
-
+    private int screenW;
+    private int screenH;
     private Context myContexte;
     private static final int[] palette = {Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW};
 
 
 //    private static final int[] palette = {Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW};
 
+
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        screenW = w;
+        screenH = h;
+    }
 
     public planetes  (Context context) {
         super(context);
@@ -41,14 +48,14 @@ public class planetes extends View {
 
         status = true;
         alea = new Random();
-        posX = alea.nextInt(500);
-        posY = alea.nextInt(500);
+        posX = alea.nextInt(1500);
+        posY = alea.nextInt(700);
 
         crayon = new Paint();
         crayon.setAntiAlias(true);
-        crayon.setColor(palette[alea.nextInt(3)]);
+//        crayon.setColor(palette[alea.nextInt(3)]);
 
-        radius = 30;
+
 
 
     }
@@ -66,7 +73,7 @@ public class planetes extends View {
 
         if (!this.status)
         {
-            crayon.setColor(Color.GREEN);
+            //update couleur bdd to GREEN
 
         }
     }
@@ -83,29 +90,23 @@ public class planetes extends View {
         return this.posY;
     }
 
-//    protected void onDraw(Canvas canvas) {
-//
-
-//
-//    }
 
     public void onDraw(Canvas canvas, String nom, String nomImage, int taille, boolean type, String couleur) {
-//        vaisseau = BitmapFactory.decodeResource(getResources(),R.drawable.vaisseau);
-//        Bitmap resizedVaisseau = Bitmap.createScaledBitmap(vaisseau,300 ,400,true);
-//        canvas.drawBitmap(resizedVaisseau, ballX, bally, null);
 
-//
+        radius = taille+2;
+
+        crayon.setColor(Color.parseColor(couleur));
         int idImage= getResources().getIdentifier(nomImage,"drawable", getContext().getPackageName());
 
-//
+
         imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
 
 
         Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,taille ,taille,true);
-//
-//
-        canvas.drawBitmap(resizedImage, posX , posY, null);
-        canvas.drawCircle(posX, posY, taille+20, crayon);
+
+
+        canvas.drawCircle(getPosX(), getPosY(), taille/2, crayon);
+        canvas.drawBitmap(resizedImage, getPosX()-100 , getPosY()-110,null);
 
     }
 }
