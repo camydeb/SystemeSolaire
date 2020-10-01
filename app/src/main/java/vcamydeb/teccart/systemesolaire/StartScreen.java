@@ -46,7 +46,7 @@ public class StartScreen extends View {
         Bitmap resizedBtnDown = Bitmap.createScaledBitmap(btnPlayDown, 300,300,true);
 
 
-        canvas.drawBitmap(startPageLogo, ((int)screenW-startPageLogo.getWidth())/2,(int)(screenH*0),null);
+        canvas.drawBitmap(startPageLogo, ((int)screenW-startPageLogo.getWidth())/2,((int)(-50)),null);
         if(playBtnState){canvas.drawBitmap(resizedBtnDown, (screenW-resizedBtnDown.getWidth())/2,(int)(screenH*0.75),null);
         }
         else

@@ -2,6 +2,7 @@ package vcamydeb.teccart.systemesolaire;
 import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,9 +26,6 @@ public class AlienSolarSystem extends View {
     private int cnt;
     private Context mcontext;
     private boolean fin;
-    private String image;
-    private Bitmap imageSelect;
-    private int radius;
     private Bitmap vaisseau;
     private String nom;
     private int taille;
@@ -37,8 +35,19 @@ public class AlienSolarSystem extends View {
     private Bitmap space;
     private int screenW;
     private int screenH;
+    private Paint ballPaint;
     private ArrayList<AstreCeleste> liste;
+    private Bitmap imageSelect;
+    private int newX;
+    private int newY;
 
+
+
+    protected void onXYChanged(int x, int y, int oldx, int oldy) {
+        super.onSizeChanged(x, y, oldx, oldy);
+        newX = x;
+        newY = y;
+    }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -60,10 +69,12 @@ public class AlienSolarSystem extends View {
         cnt =0;
         alea = new Random();
 
-        ballX = alea.nextInt(1500);
-        bally = alea.nextInt(800);
+        ballX = alea.nextInt(1000);
+        bally = alea.nextInt(1500);
 
-
+        ballPaint = new Paint();
+        ballPaint.setAntiAlias(true);
+        ballPaint.setColor(Color.BLACK);
 
         for (int i=0;i<=7;i++)
         {
@@ -91,15 +102,25 @@ public class AlienSolarSystem extends View {
     {
         // super.onDraw(canvas);
 
+//        VaisseauSpatial vaisseau = new VaisseauSpatial()
+
         //creer le background
         space = BitmapFactory.decodeResource(getResources(),R.drawable.space);
-        Bitmap resizedSpace = Bitmap.createScaledBitmap(space,2000,1125,true);
+        Bitmap resizedSpace = Bitmap.createScaledBitmap(space,screenW,screenH,true);
         canvas.drawBitmap(resizedSpace, 0,0,null);
 
+
+
         //creer le vaisseau
-        vaisseau = BitmapFactory.decodeResource(getResources(),R.drawable.vaisseau);
-        Bitmap resizedVaisseau = Bitmap.createScaledBitmap(vaisseau,300 ,400,true);
-        canvas.drawBitmap(resizedVaisseau, ballX, bally, null);
+//        canvas.drawCircle(ballX, bally, 50, ballPaint);
+
+        VaisseauSpatial vaisseau = new VaisseauSpatial("vaisseau", 400, 320);
+
+        int idImage= getResources().getIdentifier(vaisseau.getNomImage(),"drawable", getContext().getPackageName());
+        imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
+        Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,vaisseau.getWidth() ,vaisseau.getHeight(),true);
+
+        canvas.drawBitmap(resizedImage, ballX-vaisseau.getWidth()/2, bally-vaisseau.getHeight()/2, null);
 
 
         //creer les planetes
@@ -113,22 +134,9 @@ public class AlienSolarSystem extends View {
             type = liste.get(i).isStatusAstre();
             nomImage = liste.get(i).getNomImageAstre();
 
-            AstreCeleste temp1 = new AstreCeleste(nom, taille, couleur, type, nomImage);
 
 
-
-            //        image = liste.get(i).getNomImageAstre();
-//        radius = liste.get(i).getTailleAstre();
-//
-//        int idImage= getResources().getIdentifier(image,"drawable", getContext().getPackageName());
-//
-//        imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
-//
-//
-//        Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,radius ,radius,true);
-//            canvas.drawBitmap(resizedImage, posX , posY, null);
-
-            planetes[i].onDraw(canvas, nom, nomImage, taille, type, couleur);
+            planetes[i].onDraw(canvas, nom, taille, couleur,type, nomImage);
         }
 
 
@@ -144,9 +152,18 @@ public class AlienSolarSystem extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+
+
         int action = event.getAction();
+
+
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
+
+
+        int diffX = touchX - ballX;
+        int diffY = touchY - bally;
+
 
         boolean limitL,limitR,LimitU,LimitD = false;
 
@@ -154,11 +171,20 @@ public class AlienSolarSystem extends View {
         {
 
             case MotionEvent.ACTION_MOVE:
+
                 ballX = touchX;
                 bally = touchY;
 
                 for(int i = 0;i<planetes.length;i++)
                 {
+
+                    nom = liste.get(i).getNomAstre();
+                    taille = liste.get(i).getTailleAstre();
+                    couleur = liste.get(i).getCouleurAstre();
+                    type = liste.get(i).isStatusAstre();
+                    nomImage = liste.get(i).getNomImageAstre();
+
+
                     limitL = ballX > (planetes[i].getPosX()-taille);
                     limitR =  ballX < (planetes[i].getPosX()+taille);
                     LimitU =  bally > (planetes[i].getPosY()-taille);
@@ -166,9 +192,15 @@ public class AlienSolarSystem extends View {
 
                     if(limitL && limitR && LimitD && LimitU )
                     {
-                        if(planetes[i].getStatus())
+
+
+                        if(planetes[i].getStatus(type))
                         {
-                            planetes[i].setStatus(false);
+
+
+                            planetes[i].setStatus(false, nom, taille, type);
+
+
                             cnt++;
                         }
 
@@ -183,7 +215,11 @@ public class AlienSolarSystem extends View {
 
 
         }
-        invalidate();
+        if (diffX > 15 && diffY > 15){
+
+            invalidate();
+        }
+
         return true;
     }
 

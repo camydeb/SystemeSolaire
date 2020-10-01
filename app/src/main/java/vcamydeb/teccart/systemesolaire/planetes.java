@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,47 +34,54 @@ public class planetes extends View {
 //    private static final int[] palette = {Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW};
 
 
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        screenW = w;
-        screenH = h;
-    }
+
+
+
 
     public planetes  (Context context) {
         super(context);
         myContexte = context;
-//        myDbAdapter myDBAdapter = new myDbAdapter(myContexte);
-//        myDBAdapter.Open();
-//        liste = myDBAdapter.selectAstres();
+
 
         status = true;
         alea = new Random();
-        posX = alea.nextInt(1500);
-        posY = alea.nextInt(700);
+        posX = alea.nextInt(1000);
+        posY = alea.nextInt(1500);
 
         crayon = new Paint();
         crayon.setAntiAlias(true);
-//        crayon.setColor(palette[alea.nextInt(3)]);
+//        crayon.setColor(Color.parseColor(couleur));
 
 
 
 
     }
 
-    public boolean getStatus()
+    public boolean getStatus(Boolean type)
     {
+
         return this.status;
     }
 
 
 
-    public void setStatus(Boolean state)
+    public void setStatus(Boolean state, String nom, int taille, Boolean type)
     {
         this.status = state;
 
         if (!this.status)
         {
-            //update couleur bdd to GREEN
+
+            Toast.makeText(myContexte, "Nom : "+nom+"   Taille: "+taille+"", Toast.LENGTH_SHORT).show();
+
+
+            if(type == true)
+            {
+                crayon.setColor(Color.GREEN);
+
+
+            }
+
 
         }
     }
@@ -91,9 +99,11 @@ public class planetes extends View {
     }
 
 
-    public void onDraw(Canvas canvas, String nom, String nomImage, int taille, boolean type, String couleur) {
+    public void onDraw(Canvas canvas, String nom, int taille, String couleur, boolean type,String nomImage) {
 
-        radius = taille+2;
+        radius = (taille/2)+10;
+        int x = getPosX();
+        int y = getPosY();
 
         crayon.setColor(Color.parseColor(couleur));
         int idImage= getResources().getIdentifier(nomImage,"drawable", getContext().getPackageName());
@@ -105,9 +115,9 @@ public class planetes extends View {
         Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,taille ,taille,true);
 
 
-        canvas.drawCircle(getPosX(), getPosY(), taille/2, crayon);
-        canvas.drawBitmap(resizedImage, getPosX()-100 , getPosY()-110,null);
+        canvas.drawCircle(x, y, radius, crayon);
 
+        canvas.drawBitmap(resizedImage, x-taille/2 , y-taille/2,null);
     }
 }
 

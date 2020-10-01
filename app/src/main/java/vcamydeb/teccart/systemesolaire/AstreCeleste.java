@@ -1,5 +1,6 @@
 package vcamydeb.teccart.systemesolaire;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
 public class AstreCeleste extends Object {
@@ -7,7 +8,7 @@ public class AstreCeleste extends Object {
     private String NomAstre;
     private int TailleAstre;
     private String CouleurAstre;
-    private boolean StatusAstre;
+    private Boolean StatusAstre;
     private String NomImageAstre;
 
     public String getNomAstre() {
@@ -34,11 +35,11 @@ public class AstreCeleste extends Object {
         CouleurAstre = couleurAstre;
     }
 
-    public boolean isStatusAstre() {
+    public Boolean isStatusAstre() {
         return StatusAstre;
     }
 
-    public void setStatusAstre(boolean statusAstre) {
+    public void setStatusAstre(Boolean statusAstre) {
         StatusAstre = statusAstre;
     }
 
@@ -50,7 +51,7 @@ public class AstreCeleste extends Object {
         NomImageAstre = nomImageAstre;
     }
 
-    public AstreCeleste(String nomAstre, int tailleAstre, String couleurAstre, boolean statusAstre, String nomImageAstre) {
+    public AstreCeleste(String nomAstre, int tailleAstre, String couleurAstre, Boolean statusAstre, String nomImageAstre) {
         NomAstre = nomAstre;
         TailleAstre = tailleAstre;
         CouleurAstre = couleurAstre;
