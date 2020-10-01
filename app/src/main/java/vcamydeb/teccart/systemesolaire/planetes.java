@@ -57,7 +57,7 @@ public class planetes extends View {
 
     }
 
-    public boolean getStatus(Boolean type)
+    public boolean getStatus()
     {
 
         return this.status;
@@ -65,7 +65,7 @@ public class planetes extends View {
 
 
 
-    public void setStatus(Boolean state, String nom, int taille, Boolean type)
+    public void setStatus(Boolean state, String nom, int taille, int type)
     {
         this.status = state;
 
@@ -75,7 +75,7 @@ public class planetes extends View {
             Toast.makeText(myContexte, "Nom : "+nom+"   Taille: "+taille+"", Toast.LENGTH_SHORT).show();
 
 
-            if(type == true)
+            if(type == 1)
             {
                 crayon.setColor(Color.GREEN);
 
@@ -99,7 +99,7 @@ public class planetes extends View {
     }
 
 
-    public void onDraw(Canvas canvas, String nom, int taille, String couleur, boolean type,String nomImage) {
+    public void onDraw(Canvas canvas, String nom, int taille, String couleur, int type,String nomImage) {
 
         radius = (taille/2)+10;
         int x = getPosX();

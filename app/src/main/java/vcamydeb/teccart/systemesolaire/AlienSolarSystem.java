@@ -30,7 +30,7 @@ public class AlienSolarSystem extends View {
     private String nom;
     private int taille;
     private String couleur;
-    private boolean type;
+    private int type;
     private String nomImage;
     private Bitmap space;
     private int screenW;
@@ -194,7 +194,7 @@ public class AlienSolarSystem extends View {
                     {
 
 
-                        if(planetes[i].getStatus(type))
+                        if(planetes[i].getStatus())
                         {
 
 

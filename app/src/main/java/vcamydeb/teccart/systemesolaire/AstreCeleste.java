@@ -8,7 +8,7 @@ public class AstreCeleste extends Object {
     private String NomAstre;
     private int TailleAstre;
     private String CouleurAstre;
-    private Boolean StatusAstre;
+    private int StatusAstre;
     private String NomImageAstre;
 
     public String getNomAstre() {
@@ -35,11 +35,11 @@ public class AstreCeleste extends Object {
         CouleurAstre = couleurAstre;
     }
 
-    public Boolean isStatusAstre() {
+    public int isStatusAstre() {
         return StatusAstre;
     }
 
-    public void setStatusAstre(Boolean statusAstre) {
+    public void setStatusAstre(int statusAstre) {
         StatusAstre = statusAstre;
     }
 
@@ -51,7 +51,7 @@ public class AstreCeleste extends Object {
         NomImageAstre = nomImageAstre;
     }
 
-    public AstreCeleste(String nomAstre, int tailleAstre, String couleurAstre, Boolean statusAstre, String nomImageAstre) {
+    public AstreCeleste(String nomAstre, int tailleAstre, String couleurAstre, int statusAstre, String nomImageAstre) {
         NomAstre = nomAstre;
         TailleAstre = tailleAstre;
         CouleurAstre = couleurAstre;

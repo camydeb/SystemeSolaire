@@ -28,14 +28,14 @@ public class myDbAdapter {
         this.db = this.dbHelper.getWritableDatabase();
 
         this.db.execSQL("DELETE FROM 'astre';");
-        this.db.execSQL("INSERT INTO astre VALUES ('pluton','150','RED','false','pluton');");
-        this.db.execSQL("INSERT INTO astre VALUES ('terre','80','BLUE','true','terre');");
-        this.db.execSQL("INSERT INTO astre VALUES ('saturne','120','YELLOW','false','saturne');");
-        this.db.execSQL("INSERT INTO astre VALUES ('mars','70','RED','false','mars');");
-        this.db.execSQL("INSERT INTO astre VALUES ('soleil','220','BLUE','false','soleil');");
-        this.db.execSQL("INSERT INTO astre VALUES ('mercure','200','RED','false','mercure');");
-        this.db.execSQL("INSERT INTO astre VALUES ('lune','100','BLUE','true','lune');");
-        this.db.execSQL("INSERT INTO astre VALUES ('deathstar','140','BLUE','true','deathstar');");
+        this.db.execSQL("INSERT INTO astre VALUES ('pluton','150','RED','0','pluton');");
+        this.db.execSQL("INSERT INTO astre VALUES ('terre','80','BLUE','1','terre');");
+        this.db.execSQL("INSERT INTO astre VALUES ('saturne','120','YELLOW','0','saturne');");
+        this.db.execSQL("INSERT INTO astre VALUES ('mars','70','RED','0','mars');");
+        this.db.execSQL("INSERT INTO astre VALUES ('soleil','220','BLUE','0','soleil');");
+        this.db.execSQL("INSERT INTO astre VALUES ('mercure','200','RED','0','mercure');");
+        this.db.execSQL("INSERT INTO astre VALUES ('lune','100','BLUE','0','lune');");
+        this.db.execSQL("INSERT INTO astre VALUES ('deathstar','140','BLUE','1','deathstar');");
     }
 
 
@@ -64,7 +64,7 @@ public class myDbAdapter {
         if((cursor != null) && cursor.moveToFirst())
         {
             do{
-                listePlanetes.add(new AstreCeleste(cursor.getString(nomIndex),cursor.getInt(tailleIndex),cursor.getString(couleurIndex), cursor.getInt(statusIndex)!=0,
+                listePlanetes.add(new AstreCeleste(cursor.getString(nomIndex),cursor.getInt(tailleIndex),cursor.getString(couleurIndex), cursor.getInt(statusIndex),
                         cursor.getString(imageIndex)));
 
             }

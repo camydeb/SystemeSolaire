@@ -13,7 +13,7 @@ public class myDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE IF NOT EXISTS astre( NomAstre varchar(50), TailleAstre int, CouleurAstre varchar(50), StatusAstre boolean, NomImageAstre varchar(50));";
+        String query = "CREATE TABLE IF NOT EXISTS astre( NomAstre varchar(50), TailleAstre int, CouleurAstre varchar(50), StatusAstre int, NomImageAstre varchar(50));";
         db.execSQL(query);
     }
 
