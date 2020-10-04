@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.hardware.SensorEventListener;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,7 +19,7 @@ public class StartScreen extends View {
     private Bitmap btnPlayDown;
     private Bitmap btnAccStartUp;
     private Bitmap btnAccStartDown;
-    private boolean playBtnState;
+    private String playBtnState;
     private Context MyContext;
 
     @Override
@@ -35,30 +36,49 @@ public class StartScreen extends View {
         startPageLogo = BitmapFactory.decodeResource(getResources(),R.drawable.start_page);
         btnPlayUp = BitmapFactory.decodeResource(getResources(),R.drawable.play_up);
         btnPlayDown = BitmapFactory.decodeResource(getResources(),R.drawable.play_down);
-
+        btnAccStartUp = BitmapFactory.decodeResource(getResources(),R.drawable.accelerometre_up);
+        btnAccStartDown = BitmapFactory.decodeResource(getResources(),R.drawable.accelerometre_down);
+        playBtnState = "";
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Bitmap resizedBtnUp = Bitmap.createScaledBitmap(btnPlayUp, 300,300,true);
-        Bitmap resizedBtnDown = Bitmap.createScaledBitmap(btnPlayDown, 300,300,true);
+        Bitmap resizedBtnUp = Bitmap.createScaledBitmap(btnPlayUp, screenW/4,400,true);
+        Bitmap resizedBtnDown = Bitmap.createScaledBitmap(btnPlayDown, screenW/4,400,true);
 
+        Bitmap resizedBtnAccUp = Bitmap.createScaledBitmap(btnAccStartUp, screenW/4, 400,true);
+        Bitmap resizedBtnAccDown = Bitmap.createScaledBitmap(btnAccStartDown, screenW/4, 400,true);
 
+//bouton touchscreen
         canvas.drawBitmap(startPageLogo, ((int)screenW-startPageLogo.getWidth())/2,((int)(-50)),null);
-        if(playBtnState){canvas.drawBitmap(resizedBtnDown, (screenW-resizedBtnDown.getWidth())/2,(int)(screenH*0.75),null);
+        if(playBtnState == "touch"){canvas.drawBitmap(resizedBtnDown, ((screenW/3)-resizedBtnDown.getWidth()/2),(int)(screenH*0.65),null);
         }
-        else
-        {
-            canvas.drawBitmap(resizedBtnUp,(screenW-resizedBtnUp.getWidth())/2,(int)(screenH*0.75),null);
+        else if(playBtnState == "")
+            {
+                canvas.drawBitmap(resizedBtnUp,((screenW/3)-resizedBtnUp.getWidth()/2),(int)(screenH*0.65),null);
+            }
+
+//bouton accelerometre
+        if(playBtnState == "accelerometre") {
+            canvas.drawBitmap(resizedBtnAccDown, (((screenW/3)+resizedBtnAccDown.getWidth())), (int)(screenH*0.65), null);
         }
+        else if(playBtnState == "")
+            {
+                canvas.drawBitmap(resizedBtnAccUp, (((screenW/3)+resizedBtnAccUp.getWidth())), (int)(screenH*0.65), null);
+            }
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        Bitmap resizedBtnUp = Bitmap.createScaledBitmap(btnPlayUp, screenW/4,400,true);
+        Bitmap resizedBtnDown = Bitmap.createScaledBitmap(btnPlayDown, screenW/4,400,true);
+
+        Bitmap resizedBtnAccUp = Bitmap.createScaledBitmap(btnAccStartUp, screenW/4, 400,true);
+        Bitmap resizedBtnAccDown = Bitmap.createScaledBitmap(btnAccStartDown, screenW/4, 400,true);
         // return super.onTouchEvent(event);
         int action = event.getAction();
         int touchX = (int)event.getX();
@@ -69,18 +89,27 @@ public class StartScreen extends View {
         {
 
             case MotionEvent.ACTION_DOWN:
-                if ((touchX > (screenW-btnPlayUp.getWidth())/2 &&
-                        touchX< ((screenW-btnPlayUp.getWidth())/2) +
-                                btnPlayUp.getWidth())&& ((touchY > (int)(screenH*0.75)) &&
-                        (touchY < ((int)(screenH*0.75) +
-                                btnPlayUp.getHeight())))) {
-                    playBtnState = true;
+                if ((touchX > ((screenW/3)-resizedBtnUp.getWidth()/2) &&
+                        touchX< ((screenW/3)-resizedBtnUp.getWidth()/2) +
+                                resizedBtnUp.getWidth())&& ((touchY > (int)(screenH*0.65)) &&
+                        (touchY < ((int)(screenH*0.65) +
+                                resizedBtnUp.getHeight())))) {
+                    playBtnState = "touch";
+                }
+                else if ((touchX > ((screenW/3)+resizedBtnAccUp.getWidth()) &&
+                            touchX < ((screenW/3)+resizedBtnAccUp.getWidth()) + resizedBtnAccUp.getWidth()) && ((touchY >(int)(screenH*0.65))
+                        && (touchY < ((int)(screenH*0.65) + resizedBtnAccUp.getHeight())))) {
+                    playBtnState = "accelerometre";
                 }
 
                 break;
 
+
+
+
+
             case MotionEvent.ACTION_UP:
-                if(playBtnState)
+                if(playBtnState == "touch")
                 {
                     myDbAdapter adapter = new myDbAdapter(getContext());
                     adapter.insertBD();
@@ -88,7 +117,15 @@ public class StartScreen extends View {
                     MyContext.startActivity(gameIntent);
 
                 }
-                playBtnState = false;
+                else if(playBtnState == "accelerometre")
+                {
+                    myDbAdapter adapter = new myDbAdapter(getContext());
+                    adapter.insertBD();
+                    Intent gameIntent = new Intent(MyContext,game_on_acc.class);
+                    MyContext.startActivity(gameIntent);
+                }
+
+                playBtnState = "";
 
                 break;
 

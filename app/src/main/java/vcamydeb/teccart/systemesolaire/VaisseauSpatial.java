@@ -6,6 +6,7 @@ public class VaisseauSpatial extends Object {
     private int height;
     private int width;
 
+
     public String getNomImage() {
         return nomImage;
     }

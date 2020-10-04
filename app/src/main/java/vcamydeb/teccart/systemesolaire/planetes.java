@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -28,14 +26,9 @@ public class planetes extends View {
     private int screenW;
     private int screenH;
     private Context myContexte;
-    private static final int[] palette = {Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW};
+    private ArrayList<AstreCeleste> liste;
 
-
-//    private static final int[] palette = {Color.BLUE,Color.GREEN,Color.MAGENTA,Color.YELLOW};
-
-
-
-
+//    private static final String[] palette = new String[8];
 
 
     public planetes  (Context context) {
@@ -50,12 +43,15 @@ public class planetes extends View {
 
         crayon = new Paint();
         crayon.setAntiAlias(true);
-//        crayon.setColor(Color.parseColor(couleur));
 
 
-
+//        myDbAdapter myDBAdapter = new myDbAdapter(context);
+//        myDBAdapter.Open();
+//        liste =  myDBAdapter.selectAstres();
 
     }
+
+
 
     public boolean getStatus()
     {
@@ -65,24 +61,19 @@ public class planetes extends View {
 
 
 
-    public void setStatus(Boolean state, String nom, int taille, int type)
+    public void setStatus(Boolean state, String nom, String couleur, int taille, int type)
     {
         this.status = state;
 
         if (!this.status)
         {
-
             Toast.makeText(myContexte, "Nom : "+nom+"   Taille: "+taille+"", Toast.LENGTH_SHORT).show();
-
 
             if(type == 1)
             {
                 crayon.setColor(Color.GREEN);
 
-
             }
-
-
         }
     }
 
@@ -105,17 +96,22 @@ public class planetes extends View {
         int x = getPosX();
         int y = getPosY();
 
-        crayon.setColor(Color.parseColor(couleur));
         int idImage= getResources().getIdentifier(nomImage,"drawable", getContext().getPackageName());
+
 
 
         imageSelect = BitmapFactory.decodeResource(getResources(),idImage);
 
 
+
         Bitmap resizedImage = Bitmap.createScaledBitmap(imageSelect,taille ,taille,true);
 
+        if(this.status)
+        {
+            crayon.setColor(Color.parseColor(couleur));
+        }
 
-        canvas.drawCircle(x, y, radius, crayon);
+        canvas.drawCircle(x, y, radius, crayon );
 
         canvas.drawBitmap(resizedImage, x-taille/2 , y-taille/2,null);
     }
